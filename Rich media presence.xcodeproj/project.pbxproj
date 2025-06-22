@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8029528F2E067DDB00939F8D /* MediaRemoteAdapter in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 80D1A0742E032B0B002C4FF6 /* MediaRemoteAdapter */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		802952C52E07F8B800939F8D /* Rich-media-presence-Info 2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 802952C42E07F8B800939F8D /* Rich-media-presence-Info 2.plist */; };
+		80D1A0752E032B0B002C4FF6 /* MediaRemoteAdapter in Frameworks */ = {isa = PBXBuildFile; productRef = 80D1A0742E032B0B002C4FF6 /* MediaRemoteAdapter */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		803A8D3B2DFC8DBF0018C467 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -23,15 +29,58 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		80D1A0722E032098002C4FF6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8029528F2E067DDB00939F8D /* MediaRemoteAdapter in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		802952C42E07F8B800939F8D /* Rich-media-presence-Info 2.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Rich-media-presence-Info 2.plist"; sourceTree = "<group>"; };
 		803A8D2C2DFC8DBE0018C467 /* Rich media presence.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rich media presence.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		803A8D3A2DFC8DBF0018C467 /* Rich media presenceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Rich media presenceTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		803A8D442DFC8DBF0018C467 /* Rich media presenceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Rich media presenceUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		803CCD542E05DBED00AA8C14 /* discord_game_sdk.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = discord_game_sdk.dylib; path = "../../Rich-media-presence-MacOS/lib/discord_game_sdk.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		802952C62E081AA300939F8D /* Exceptions for "Rich media presence" folder in "Rich media presence" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			attributesByRelativePath = {
+				lib/libdiscord_partner_sdk.dylib = (Weak, );
+			};
+			target = 803A8D2B2DFC8DBE0018C467 /* Rich media presence */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		8029528E2E067DDA00939F8D /* Exceptions for "Rich media presence" folder in "Embed Frameworks" phase from "Rich media presence" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			attributesByRelativePath = {
+				lib/discord_game_sdk.dylib = (CodeSignOnCopy, );
+			};
+			buildPhase = 80D1A0722E032098002C4FF6 /* Embed Frameworks */;
+			membershipExceptions = (
+				lib/discord_game_sdk.dylib,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		803A8D2E2DFC8DBE0018C467 /* Rich media presence */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				802952C62E081AA300939F8D /* Exceptions for "Rich media presence" folder in "Rich media presence" target */,
+				8029528E2E067DDA00939F8D /* Exceptions for "Rich media presence" folder in "Embed Frameworks" phase from "Rich media presence" target */,
+			);
 			path = "Rich media presence";
 			sourceTree = "<group>";
 		};
@@ -52,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80D1A0752E032B0B002C4FF6 /* MediaRemoteAdapter in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,9 +125,11 @@
 		803A8D232DFC8DBE0018C467 = {
 			isa = PBXGroup;
 			children = (
+				802952C42E07F8B800939F8D /* Rich-media-presence-Info 2.plist */,
 				803A8D2E2DFC8DBE0018C467 /* Rich media presence */,
 				803A8D3D2DFC8DBF0018C467 /* Rich media presenceTests */,
 				803A8D472DFC8DBF0018C467 /* Rich media presenceUITests */,
+				803CCD532E05DBED00AA8C14 /* Frameworks */,
 				803A8D2D2DFC8DBE0018C467 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -92,6 +144,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		803CCD532E05DBED00AA8C14 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				803CCD542E05DBED00AA8C14 /* discord_game_sdk.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -102,6 +162,7 @@
 				803A8D282DFC8DBE0018C467 /* Sources */,
 				803A8D292DFC8DBE0018C467 /* Frameworks */,
 				803A8D2A2DFC8DBE0018C467 /* Resources */,
+				80D1A0722E032098002C4FF6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -112,6 +173,7 @@
 			);
 			name = "Rich media presence";
 			packageProductDependencies = (
+				80D1A0742E032B0B002C4FF6 /* MediaRemoteAdapter */,
 			);
 			productName = "Rich media presence";
 			productReference = 803A8D2C2DFC8DBE0018C467 /* Rich media presence.app */;
@@ -169,12 +231,13 @@
 		803A8D242DFC8DBE0018C467 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = 1;
+				BuildIndependentTargetsInParallel = NO;
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					803A8D2B2DFC8DBE0018C467 = {
 						CreatedOnToolsVersion = 16.4;
+						LastSwiftMigration = 1640;
 					};
 					803A8D392DFC8DBF0018C467 = {
 						CreatedOnToolsVersion = 16.4;
@@ -195,6 +258,9 @@
 			);
 			mainGroup = 803A8D232DFC8DBE0018C467;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				80D1A0732E032B0B002C4FF6 /* XCRemoteSwiftPackageReference "mediaremote-adapter" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 803A8D2D2DFC8DBE0018C467 /* Products */;
 			projectDirPath = "";
@@ -212,6 +278,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				802952C52E07F8B800939F8D /* Rich-media-presence-Info 2.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,9 +371,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = NO;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -321,11 +390,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INCLUDED_EXPLICIT_TARGET_DEPENDENCIES = "";
+				LD_RUNPATH_SEARCH_PATHS = "";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MERGED_BINARY_TYPE = none;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-v";
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -367,9 +440,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = NO;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -378,10 +453,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INCLUDED_EXPLICIT_TARGET_DEPENDENCIES = "";
+				LD_RUNPATH_SEARCH_PATHS = "";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MERGED_BINARY_TYPE = none;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-v";
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
@@ -392,22 +471,38 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Rich media presence/Rich_media_presence.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Rich-media-presence-Info.plist";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "AzimovParviz.Rich-media-presence";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Rich media presence/DiscordPresence/Rich media presence-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -417,22 +512,37 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Rich media presence/Rich_media_presence.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Rich-media-presence-Info.plist";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "AzimovParviz.Rich-media-presence";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Rich media presence/DiscordPresence/Rich media presence-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -511,7 +621,7 @@
 				803A8D4D2DFC8DBF0018C467 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		803A8D4E2DFC8DBF0018C467 /* Build configuration list for PBXNativeTarget "Rich media presence" */ = {
 			isa = XCConfigurationList;
@@ -520,7 +630,7 @@
 				803A8D502DFC8DBF0018C467 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		803A8D512DFC8DBF0018C467 /* Build configuration list for PBXNativeTarget "Rich media presenceTests" */ = {
 			isa = XCConfigurationList;
@@ -529,7 +639,7 @@
 				803A8D532DFC8DBF0018C467 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		803A8D542DFC8DBF0018C467 /* Build configuration list for PBXNativeTarget "Rich media presenceUITests" */ = {
 			isa = XCConfigurationList;
@@ -538,9 +648,28 @@
 				803A8D562DFC8DBF0018C467 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		80D1A0732E032B0B002C4FF6 /* XCRemoteSwiftPackageReference "mediaremote-adapter" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ejbills/mediaremote-adapter.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		80D1A0742E032B0B002C4FF6 /* MediaRemoteAdapter */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80D1A0732E032B0B002C4FF6 /* XCRemoteSwiftPackageReference "mediaremote-adapter" */;
+			productName = MediaRemoteAdapter;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 803A8D242DFC8DBE0018C467 /* Project object */;
 }
