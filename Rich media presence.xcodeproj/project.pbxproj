@@ -51,36 +51,9 @@
 		803CCD542E05DBED00AA8C14 /* discord_game_sdk.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = discord_game_sdk.dylib; path = "../../Rich-media-presence-MacOS/lib/discord_game_sdk.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		802952C62E081AA300939F8D /* Exceptions for "Rich media presence" folder in "Rich media presence" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			attributesByRelativePath = {
-				lib/libdiscord_partner_sdk.dylib = (Weak, );
-			};
-			target = 803A8D2B2DFC8DBE0018C467 /* Rich media presence */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		8029528E2E067DDA00939F8D /* Exceptions for "Rich media presence" folder in "Embed Frameworks" phase from "Rich media presence" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			attributesByRelativePath = {
-				lib/discord_game_sdk.dylib = (CodeSignOnCopy, );
-			};
-			buildPhase = 80D1A0722E032098002C4FF6 /* Embed Frameworks */;
-			membershipExceptions = (
-				lib/discord_game_sdk.dylib,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		803A8D2E2DFC8DBE0018C467 /* Rich media presence */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				802952C62E081AA300939F8D /* Exceptions for "Rich media presence" folder in "Rich media presence" target */,
-				8029528E2E067DDA00939F8D /* Exceptions for "Rich media presence" folder in "Embed Frameworks" phase from "Rich media presence" target */,
-			);
 			path = "Rich media presence";
 			sourceTree = "<group>";
 		};
