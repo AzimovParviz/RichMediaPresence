@@ -85,9 +85,6 @@ void discordInit(DiscordClientId clientId)
 static bool updateDiscordPresence(struct SongInformation *songInformation)
 {
     static struct DiscordActivity activity;
-//    if(strstr(OSX_VER, "13.7.") != NULL)
-//    returnNowPlayingInfo();
-//    readSongInformation(songInformation);
     printf("App name: %s\n", appName);
     mediaClientName = unknown;
     if (strstr(appName, "Safari") != NULL)
@@ -153,8 +150,8 @@ static bool updateDiscordPresence(struct SongInformation *songInformation)
 
 void *updateLoop(struct SongInformation songInformation)
 {
-//    if (!app.DiscordOk)
-//        return NULL;
+    if (!app.DiscordOk)
+        return NULL;
 //    for (;;)
     {
 //        discordInit(1386305564031717467);
