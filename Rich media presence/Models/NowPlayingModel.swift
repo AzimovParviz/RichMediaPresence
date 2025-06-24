@@ -31,7 +31,9 @@ class NowPlayingModel: ObservableObject {
             self.title?.withCString { strncpy(&songInfo.title, $0, MemoryLayout.size(ofValue: songInfo.title)) }
             self.artist?.withCString { strncpy(&songInfo.artist, $0, MemoryLayout.size(ofValue: songInfo.artist)) }
             self.album?.withCString { strncpy(&songInfo.duration, $0, MemoryLayout.size(ofValue: songInfo.duration)) }
-            self.discordController.updateDiscordLoop(songInformation: songInfo)
+            DispatchQueue.global(qos: .background).async {
+                self.discordController.updateDiscordLoop(songInformation: songInfo)
+            }
 //            print("trackInfo: \(trackInfo)")
         
         }
