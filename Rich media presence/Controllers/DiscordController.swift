@@ -17,6 +17,11 @@ typealias DCLoggingCallback = @convention(c) (
     Discord_String, Discord_LoggingSeverity, UnsafeMutableRawPointer?
 ) -> Void
 
+typealias DCTokenCallback = @convention(c) (UnsafeMutablePointer<Discord_ClientResult>?, UnsafeMutableRawPointer?) -> Void
+
+typealias DCAuthCallback = @convention(c) (UnsafeMutablePointer<Discord_ClientResult>?, Discord_String, Discord_String, UnsafeMutableRawPointer?) -> Void
+
+
 func convertDStoString(_ dStr: Discord_String) -> String {
     // Converting the UInt8 pointer to a CChar buffer pointer
     let dsString = dStr.ptr.withMemoryRebound(
@@ -36,10 +41,6 @@ func convertDStoString(_ dStr: Discord_String) -> String {
 
 // These are outside the class cause we need to use these in callback functions and callback functions to be used in C need to be outside of the class scope
 var applicationId: UInt64 = 1_386_305_564_031_717_467
-//var songInfo: SongInformation?
-//var name = "Rich media presence".withCString { cString in
-//    UnsafeMutablePointer<Discord_String>.allocate(capacity: 1)
-//}
 
 var verifier: Discord_AuthorizationCodeVerifier =
     Discord_AuthorizationCodeVerifier()
@@ -57,6 +58,33 @@ private func loggingCallback(
     userData: UnsafeMutableRawPointer?
 ) {
     print(convertDStoString(someStr))
+}
+
+private func onGetTokenCallback(result: UnsafeMutablePointer<Discord_ClientResult>?, userData: UnsafeMutableRawPointer?) -> Void {
+    if (Discord_ClientResult_Successful(result)) {
+        print("Token received me thinks")
+    } else {
+        print("Failled to get token")
+    }
+}
+
+private func onAuthorizeCallback(
+    result: UnsafeMutablePointer<Discord_ClientResult>?,
+    code: Discord_String,
+    redirectUri: Discord_String,
+    userData: UnsafeMutableRawPointer?
+) {
+    let cb: DCTokenCallback = onGetTokenCallback
+    if (Discord_ClientResult_Successful(result)) {
+        print("Authorization successfull")
+        var codeVerifier: Discord_String = Discord_String()
+        Discord_Client_GetToken(&discordClient, applicationId, code, codeVerifier, redirectUri, nil, nil, nil)
+    }
+}
+
+private func authorizeClient(client: UnsafeMutablePointer<Discord_Client>, authArguments: UnsafeMutablePointer<Discord_AuthorizationArgs>) {
+    let cb: DCAuthCallback = onAuthorizeCallback
+   Discord_Client_Authorize(client, authArguments, cb, nil, nil)
 }
 
 private func updatePresenceCallback(
@@ -118,7 +146,7 @@ public class DiscordController {
             Discord_LoggingSeverity_Verbose
         )
         //Don't need to do every time?
-        //authorizeClient(&discordClient, &authArgs)
+        authorizeClient(client: &discordClient, authArguments: &authArgs)
 
         Discord_Activity_Init(&discordActivity)
         Discord_Client_Connect(&discordClient)
