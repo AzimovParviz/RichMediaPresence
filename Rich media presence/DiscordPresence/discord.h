@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include "discord-files/discord_game_sdk.h"
+#include "cdiscord.h"
 
 #endif /* discord_h */
 
@@ -31,7 +32,7 @@ struct Application
 };
 
 struct Application app;
-//struct SongInformation songInformation;
+struct SongInformation songInformation;
 
 enum ApplicationName {
     unknown,
@@ -58,15 +59,10 @@ const char *mediaClientIcons[] = {
 
 char appName[128];
 
-// Function to initialize Discord
-void discordInit(DiscordClientId clientId);
+void onGetTokenCallback(Discord_ClientResult* result, Discord_String accessToken, Discord_String refreshToken, Discord_AuthorizationTokenType tokenType, int32_t expiresIn, Discord_String scope, void* userData);
 
-// Function to read song information from a file or AppleScript output
-bool readFileOutputSongInfo(FILE *infoFile, struct SongInformation *songInformation);
-void readSongInformation(struct SongInformation *songInformation);
+void onAuthorizeCallback(Discord_ClientResult* result, Discord_String code, Discord_String redirectUri, void* userData);
 
-// Function to update Discord presence with song information
-static bool updateDiscordPresence(struct SongInformation *songInformation);
-
-// Function to run the update loop in a separate thread
-void *updateLoop(struct SongInformation songInformation);
+void authorizeClient(Discord_Client *client, Discord_AuthorizationArgs *authArgs);
+void onUpdateRPCallback(Discord_ClientResult* result, void* userData);
+void updateRP(struct SongInformation songInformation, Discord_Client* client, Discord_Activity* activity,void* userData);

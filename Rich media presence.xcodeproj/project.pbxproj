@@ -55,10 +55,12 @@
 		805450BF2E088C1F00C0D014 /* Exceptions for "Rich media presence" folder in "Embed Frameworks" phase from "Rich media presence" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			attributesByRelativePath = {
+				"DiscordPresence/discord-files/libdiscord_partner_sdk.dylib" = (CodeSignOnCopy, );
 				lib/discord_game_sdk.dylib = (CodeSignOnCopy, );
 			};
 			buildPhase = 80D1A0722E032098002C4FF6 /* Embed Frameworks */;
 			membershipExceptions = (
+				"DiscordPresence/discord-files/libdiscord_partner_sdk.dylib",
 				lib/discord_game_sdk.dylib,
 			);
 		};
@@ -486,6 +488,9 @@
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.0;
@@ -530,6 +535,9 @@
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.0;

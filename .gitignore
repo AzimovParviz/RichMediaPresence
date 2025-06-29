@@ -3,6 +3,7 @@
 
 lib/
 discord-files/
+*.dylib
 
 ### macOS ###
 # General
