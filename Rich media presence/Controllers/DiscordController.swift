@@ -7,20 +7,28 @@
 import Foundation
 
 //TODO: see if OpaquePointer type makes sense to be used in place of other pointers.
+//TODO: see if any of the strings should be freed
 
 //RichPresenceUpdateCallback
 typealias RPCallback = @convention(c) (
     UnsafeMutablePointer<Discord_ClientResult>?, UnsafeMutableRawPointer?
 ) -> Void
 
+//Discord logging callback
 typealias DCLoggingCallback = @convention(c) (
     Discord_String, Discord_LoggingSeverity, UnsafeMutableRawPointer?
 ) -> Void
 
-typealias DCTokenCallback = @convention(c) (UnsafeMutablePointer<Discord_ClientResult>?, UnsafeMutableRawPointer?) -> Void
+//Discord auth token callback
+typealias DCTokenCallback = @convention(c) (
+    UnsafeMutablePointer<Discord_ClientResult>?, UnsafeMutableRawPointer?
+) -> Void
 
-typealias DCAuthCallback = @convention(c) (UnsafeMutablePointer<Discord_ClientResult>?, Discord_String, Discord_String, UnsafeMutableRawPointer?) -> Void
-
+//Discord authorization callback
+typealias DCAuthCallback = @convention(c) (
+    UnsafeMutablePointer<Discord_ClientResult>?, Discord_String, Discord_String,
+    UnsafeMutableRawPointer?
+) -> Void
 
 func convertDStoString(_ dStr: Discord_String) -> String {
     // Converting the UInt8 pointer to a CChar buffer pointer
@@ -60,8 +68,11 @@ private func loggingCallback(
     print(convertDStoString(someStr))
 }
 
-private func onGetTokenCallback(result: UnsafeMutablePointer<Discord_ClientResult>?, userData: UnsafeMutableRawPointer?) -> Void {
-    if (Discord_ClientResult_Successful(result)) {
+private func onGetTokenCallback(
+    result: UnsafeMutablePointer<Discord_ClientResult>?,
+    userData: UnsafeMutableRawPointer?
+) {
+    if Discord_ClientResult_Successful(result) {
         print("Token received me thinks")
     } else {
         print("Failled to get token")
@@ -75,16 +86,29 @@ private func onAuthorizeCallback(
     userData: UnsafeMutableRawPointer?
 ) {
     let cb: DCTokenCallback = onGetTokenCallback
-    if (Discord_ClientResult_Successful(result)) {
+    if Discord_ClientResult_Successful(result) {
         print("Authorization successfull")
         var codeVerifier: Discord_String = Discord_String()
-        Discord_Client_GetToken(&discordClient, applicationId, code, codeVerifier, redirectUri, nil, nil, nil)
+        //FIXME: Swift complains about the callback, need to figure out
+        Discord_Client_GetToken(
+            &discordClient,
+            applicationId,
+            code,
+            codeVerifier,
+            redirectUri,
+            nil,
+            nil,
+            nil
+        )
     }
 }
 
-private func authorizeClient(client: UnsafeMutablePointer<Discord_Client>, authArguments: UnsafeMutablePointer<Discord_AuthorizationArgs>) {
+private func authorizeClient(
+    client: UnsafeMutablePointer<Discord_Client>,
+    authArguments: UnsafeMutablePointer<Discord_AuthorizationArgs>
+) {
     let cb: DCAuthCallback = onAuthorizeCallback
-   Discord_Client_Authorize(client, authArguments, cb, nil, nil)
+    Discord_Client_Authorize(client, authArguments, cb, nil, nil)
 }
 
 private func updatePresenceCallback(
@@ -97,29 +121,24 @@ private func updatePresenceCallback(
         &applicationId
     )
 
+    var stringResult: Discord_String = Discord_String()
+    Discord_ClientResult_ToString(result, &stringResult)
     if Discord_ClientResult_Successful(result) {
-        var stringResult: Discord_String = Discord_String()
-        Discord_ClientResult_ToString(result, &stringResult)
         print("result success", convertDStoString(stringResult))
     } else {
-        print("failed to update presence")
+        print("failed to update presence", convertDStoString(stringResult))
     }
 }
 
 public class DiscordController {
-    var state: Discord_String = DiscordString(val: "Song name")
-        .convertToDiscordString()
-    var details: Discord_String = DiscordString(
-        val: "Artist name and maybe album too"
-    )
-    .convertToDiscordString()
-    var name: Discord_String = DiscordString(val: "Rich media presence")
-        .convertToDiscordString()
+    var state: Discord_String = Discord_String()
+    var details: Discord_String = Discord_String()
+    var name: Discord_String = Discord_String()
 
     init() {
         Discord_Client_Init(&discordClient)
         Discord_Client_SetApplicationId(&discordClient, applicationId)
-        verifyCode()
+//        verifyCode()
         Discord_AuthorizationArgs_Init(&authArgs)
         Discord_AuthorizationArgs_SetClientId(
             &authArgs,
@@ -132,11 +151,11 @@ public class DiscordController {
             &authArgs,
             scopes
         )
-        Discord_AuthorizationCodeChallenge_Init(&discordChallenge)
-        Discord_AuthorizationCodeVerifier_SetChallenge(
-            &verifier,
-            &discordChallenge
-        )
+//        Discord_AuthorizationCodeChallenge_Init(&discordChallenge)
+//        Discord_AuthorizationCodeVerifier_SetChallenge(
+//            &verifier,
+//            &discordChallenge
+//        )
         let cb: DCLoggingCallback = loggingCallback
         Discord_Client_AddLogCallback(
             &discordClient,
@@ -145,8 +164,8 @@ public class DiscordController {
             nil,
             Discord_LoggingSeverity_Verbose
         )
-        //Don't need to do every time?
-        authorizeClient(client: &discordClient, authArguments: &authArgs)
+        //not needed for rich presence
+        //        authorizeClient(client: &discordClient, authArguments: &authArgs)
 
         Discord_Activity_Init(&discordActivity)
         Discord_Client_Connect(&discordClient)
@@ -154,15 +173,34 @@ public class DiscordController {
 
     func updateDiscordLoop(artist: String?, title: String?, album: String?) {
         print("running the update loop and callbacks")
-        //FIXME: we really need to not do this class thing
-        let songName: DiscordString = DiscordString(val: title!)
-        let artistName: DiscordString = DiscordString(val: artist!)
-        var _: DiscordString = DiscordString(val: album!)
-        self.state = songName.convertToDiscordString()
-        self.details = artistName.convertToDiscordString()
-        Discord_Activity_SetState(&discordActivity, &state)
-        Discord_Activity_SetDetails(&discordActivity, &details)
-        Discord_Activity_SetName(&discordActivity, name)
+        Discord_Client_ClearRichPresence(&discordClient)
+        let songName: DiscordString = DiscordString(val: title ?? "No title")
+        let artistName: DiscordString = DiscordString(val: artist ?? "")
+        let albuName: DiscordString = DiscordString(val: album ?? "")
+        if songName.value != "" {
+            self.state = songName.convertToDiscordString()
+            Discord_Activity_SetState(&discordActivity, &state)
+        }
+        else {
+            //If we don't set it here it will retain the previous value
+            Discord_Activity_SetState(&discordActivity, nil)
+        }
+        if artistName.value != "" {
+            self.details = artistName.convertToDiscordString()
+            Discord_Activity_SetDetails(&discordActivity, &details)
+        }
+        else {
+            Discord_Activity_SetDetails(&discordActivity, nil)
+        }
+        if albuName.value != "" {
+            self.name = albuName.convertToDiscordString()
+            Discord_Activity_SetName(&discordActivity, name)
+        }
+        else {
+            self.name = DiscordString(val: "Ahoy!").convertToDiscordString()
+            Discord_Activity_SetName(&discordActivity, name)
+        }
+        
         updateDiscordPresence()
         Discord_RunCallbacks()
     }
