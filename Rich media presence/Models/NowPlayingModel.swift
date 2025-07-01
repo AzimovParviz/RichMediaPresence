@@ -28,12 +28,10 @@ class NowPlayingModel: ObservableObject {
             if trackInfo.payload.title != self.title
                 || trackInfo.payload.artist != self.artist
                 || trackInfo.payload.album != self.album
-                || trackInfo.payload.artwork != self.artwork
             {
                 self.shouldChange = true
                 print("Should change")
-            }
-            else {
+            } else {
                 self.shouldChange = false
                 print("Shoudln't change")
             }
@@ -44,9 +42,18 @@ class NowPlayingModel: ObservableObject {
                 self.artwork = trackInfo.payload.artwork
                 DispatchQueue.global(qos: .background).async {
                     self.discordController.updateDiscordLoop(
-                        artist: self.artist,
-                        title: self.title,
-                        album: self.album
+                        artist: (self.artist != nil)
+                            ? self.artist!.utf8.count > 128
+                                ? String(self.title!.utf8.prefix(124))! + "..."
+                                : self.artist : nil,
+                        title: (self.title != nil)
+                            ? self.title!.utf8.count > 128
+                                ? String(self.title!.utf8.prefix(124))! + "..."
+                                : self.title : nil,
+                        album: (self.album != nil)
+                            ? self.album!.utf8.count > 128
+                                ? String(self.title!.utf8.prefix(124))! + "..."
+                                : self.album : nil
                     )
                 }
             }
