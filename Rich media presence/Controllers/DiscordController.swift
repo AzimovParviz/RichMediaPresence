@@ -30,23 +30,6 @@ typealias DCAuthCallback = @convention(c) (
     UnsafeMutableRawPointer?
 ) -> Void
 
-func convertDStoString(_ dStr: Discord_String) -> String {
-    // Converting the UInt8 pointer to a CChar buffer pointer
-    let dsString = dStr.ptr.withMemoryRebound(
-        to: CChar.self,
-        capacity: Int(dStr.size)
-    ) {
-        UnsafeBufferPointer(start: $0, count: Int(dStr.size))
-    }
-    //converting to a CChar array
-    var a = Array(dsString)
-    //null terminating the string
-    a.append(0)
-    let convertedString = String(cString: a)
-    //    print("converted string: \(convertedString)")
-    return convertedString
-}
-
 // These are outside the class cause we need to use these in callback functions and callback functions to be used in C need to be outside of the class scope
 var applicationId: UInt64 = 1_386_305_564_031_717_467
 
@@ -122,12 +105,15 @@ private func updatePresenceCallback(
     )
 
     var stringResult: Discord_String = Discord_String()
+    // FIXME: only have these in debug build
     Discord_ClientResult_ToString(result, &stringResult)
     if Discord_ClientResult_Successful(result) {
         print("result success", convertDStoString(stringResult))
     } else {
         print("failed to update presence", convertDStoString(stringResult))
     }
+    stringResult.ptr.deallocate()
+//    userData?.deallocate()
 }
 
 public class DiscordController {
@@ -138,7 +124,7 @@ public class DiscordController {
     init() {
         Discord_Client_Init(&discordClient)
         Discord_Client_SetApplicationId(&discordClient, applicationId)
-//        verifyCode()
+        //        verifyCode()
         Discord_AuthorizationArgs_Init(&authArgs)
         Discord_AuthorizationArgs_SetClientId(
             &authArgs,
@@ -151,19 +137,19 @@ public class DiscordController {
             &authArgs,
             scopes
         )
-//        Discord_AuthorizationCodeChallenge_Init(&discordChallenge)
-//        Discord_AuthorizationCodeVerifier_SetChallenge(
-//            &verifier,
-//            &discordChallenge
-//        )
-        let cb: DCLoggingCallback = loggingCallback
-        Discord_Client_AddLogCallback(
-            &discordClient,
-            cb,
-            nil,
-            nil,
-            Discord_LoggingSeverity_Verbose
-        )
+        //        Discord_AuthorizationCodeChallenge_Init(&discordChallenge)
+        //        Discord_AuthorizationCodeVerifier_SetChallenge(
+        //            &verifier,
+        //            &discordChallenge
+        //        )
+        //        let cb: DCLoggingCallback = loggingCallback
+        //        Discord_Client_AddLogCallback(
+        //            &discordClient,
+        //            cb,
+        //            nil,
+        //            nil,
+        //            Discord_LoggingSeverity_Verbose
+        //        )
         //not needed for rich presence
         //        authorizeClient(client: &discordClient, authArguments: &authArgs)
 
@@ -174,33 +160,39 @@ public class DiscordController {
     func updateDiscordLoop(artist: String?, title: String?, album: String?) {
         print("running the update loop and callbacks")
         Discord_Client_ClearRichPresence(&discordClient)
-        let songName: DiscordString = DiscordString(val: title ?? "No title")
-        let artistName: DiscordString = DiscordString(val: artist ?? "")
-        let albuName: DiscordString = DiscordString(val: album ?? "")
-        if songName.value != "" {
-            self.state = songName.convertToDiscordString()
+        if title != "" && title != nil {
+            if self.state.ptr != nil {
+                print("freeing state")
+                self.state.ptr.deallocate()
+            }
+
+            self.state = convertToDiscordString(strValue: title!)
             Discord_Activity_SetState(&discordActivity, &state)
-        }
-        else {
+        } else {
             //If we don't set it here it will retain the previous value
+            // Must be doing something wrong
             Discord_Activity_SetState(&discordActivity, nil)
         }
-        if artistName.value != "" {
-            self.details = artistName.convertToDiscordString()
+        if artist != "" && artist != nil {
+            if self.details.ptr != nil {
+                print("freeing details")
+                self.details.ptr.deallocate()
+            }
+            self.details = convertToDiscordString(strValue: artist!)
             Discord_Activity_SetDetails(&discordActivity, &details)
-        }
-        else {
+        } else {
             Discord_Activity_SetDetails(&discordActivity, nil)
         }
-        if albuName.value != "" {
-            self.name = albuName.convertToDiscordString()
-            Discord_Activity_SetName(&discordActivity, name)
-        }
-        else {
-            self.name = DiscordString(val: "Ahoy!").convertToDiscordString()
-            Discord_Activity_SetName(&discordActivity, name)
-        }
-        
+        // Not possible yet
+        //        if album != "" || album != nil {
+        //            self.name = convertToDiscordString(strValue: album ?? "")
+        //            Discord_Activity_SetName(&discordActivity, name)
+        //        }
+        //        else {
+        //            self.name = DiscordString(val: "Ahoy!").convertToDiscordString()
+        //            Discord_Activity_SetName(&discordActivity, name)
+        //        }
+
         updateDiscordPresence()
         Discord_RunCallbacks()
     }
