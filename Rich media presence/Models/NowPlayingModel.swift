@@ -41,7 +41,7 @@ class NowPlayingModel: ObservableObject {
                 self.album = trackInfo.payload.album
                 self.artwork = trackInfo.payload.artwork
                 DispatchQueue.global(qos: .background).async {
-                    self.discordController.updateDiscordLoop(
+                    self.discordController.updateDiscordPresence(
                         artist: (self.artist != nil)
                             ? self.artist!.utf8.count > 128
                                 ? String(self.title!.utf8.prefix(124))! + "..."

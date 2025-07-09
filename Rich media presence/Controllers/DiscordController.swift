@@ -71,7 +71,7 @@ private func onAuthorizeCallback(
     let cb: DCTokenCallback = onGetTokenCallback
     if Discord_ClientResult_Successful(result) {
         print("Authorization successfull")
-        var codeVerifier: Discord_String = Discord_String()
+        let codeVerifier: Discord_String = Discord_String()
         //FIXME: Swift complains about the callback, need to figure out
         Discord_Client_GetToken(
             &discordClient,
@@ -83,6 +83,7 @@ private func onAuthorizeCallback(
             nil,
             nil
         )
+        codeVerifier.ptr.deallocate()
     }
 }
 
@@ -91,6 +92,7 @@ private func authorizeClient(
     authArguments: UnsafeMutablePointer<Discord_AuthorizationArgs>
 ) {
     let cb: DCAuthCallback = onAuthorizeCallback
+    // FIXME: Discord_FreeFn lacking might be causing a memory leak. Not sure
     Discord_Client_Authorize(client, authArguments, cb, nil, nil)
 }
 
@@ -137,6 +139,7 @@ public class DiscordController {
             &authArgs,
             scopes
         )
+        scopes.ptr.deallocate()
         //        Discord_AuthorizationCodeChallenge_Init(&discordChallenge)
         //        Discord_AuthorizationCodeVerifier_SetChallenge(
         //            &verifier,
@@ -157,7 +160,7 @@ public class DiscordController {
         Discord_Client_Connect(&discordClient)
     }
 
-    func updateDiscordLoop(artist: String?, title: String?, album: String?) {
+    func updateDiscordPresence(artist: String?, title: String?, album: String?) {
         print("running the update loop and callbacks")
         Discord_Client_ClearRichPresence(&discordClient)
         if title != "" && title != nil {
