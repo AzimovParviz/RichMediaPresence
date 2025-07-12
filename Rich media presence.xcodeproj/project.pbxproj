@@ -48,18 +48,17 @@
 		803A8D2C2DFC8DBE0018C467 /* Rich media presence.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rich media presence.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		803A8D3A2DFC8DBF0018C467 /* Rich media presenceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Rich media presenceTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		803A8D442DFC8DBF0018C467 /* Rich media presenceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Rich media presenceUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		803CCD542E05DBED00AA8C14 /* discord_game_sdk.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = discord_game_sdk.dylib; path = "../../Rich-media-presence-MacOS/lib/discord_game_sdk.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		805450BF2E088C1F00C0D014 /* Exceptions for "Rich media presence" folder in "Embed Frameworks" phase from "Rich media presence" target */ = {
+		941F20E92E1E61420025576F /* Exceptions for "Rich media presence" folder in "Embed Frameworks" phase from "Rich media presence" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			attributesByRelativePath = {
-				lib/discord_game_sdk.dylib = (CodeSignOnCopy, );
+				lib/libdiscord_partner_sdk.dylib = (CodeSignOnCopy, );
 			};
 			buildPhase = 80D1A0722E032098002C4FF6 /* Embed Frameworks */;
 			membershipExceptions = (
-				lib/discord_game_sdk.dylib,
+				lib/libdiscord_partner_sdk.dylib,
 			);
 		};
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
@@ -68,7 +67,7 @@
 		803A8D2E2DFC8DBE0018C467 /* Rich media presence */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				805450BF2E088C1F00C0D014 /* Exceptions for "Rich media presence" folder in "Embed Frameworks" phase from "Rich media presence" target */,
+				941F20E92E1E61420025576F /* Exceptions for "Rich media presence" folder in "Embed Frameworks" phase from "Rich media presence" target */,
 			);
 			path = "Rich media presence";
 			sourceTree = "<group>";
@@ -136,7 +135,6 @@
 		803CCD532E05DBED00AA8C14 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				803CCD542E05DBED00AA8C14 /* discord_game_sdk.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -365,6 +363,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FUSE_BUILD_SCRIPT_PHASES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -434,6 +433,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FUSE_BUILD_SCRIPT_PHASES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -486,6 +486,26 @@
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.0;
@@ -526,6 +546,26 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
+					"$(PROJECT_DIR)/Rich\\ media\\ presence/DiscordPresence/discord-files",
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",
 					"$(PROJECT_DIR)/Rich\\ media\\ presence/lib",

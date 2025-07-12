@@ -4,8 +4,8 @@
 //
 //  Created by rosenberg on 20.6.2025.
 //
-
 import MediaRemoteAdapter
+
 import Foundation
 
 class NowPlayingController {

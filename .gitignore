@@ -3,6 +3,9 @@
 
 lib/
 discord-files/
+*.dylib
+cdiscord.h
+discordpp.h
 
 ### macOS ###
 # General
