@@ -1,0 +1,26 @@
+me: Gitea Actions Demo
+run-name: ${{ gitea.actor }} is testing out Gitea Actions 🚀
+on: [push]
+
+jobs:
+  Explore-Gitea-Actions:
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ gitea.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by Gitea!"
+      - run: echo "🔎 The name of your branch is ${{ gitea.ref }} and your repository is ${{ gitea.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "💡 The ${{ gitea.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ gitea.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Build binary
+      - run: "echo downloading sdk"
+      - run: curl -o social_sdk.zip https://storage.googleapis.com/discord-slayer-sdk-artifacts/discord_partner_sdk/763870b3777c80fd978f7ba35bb7bc0178c55098/release/DiscordSocialSdk-1.4.9649.zip?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=slayer-sdk-token-creator%40discord-production.iam.gserviceaccount.com%2F20250727%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20250727T145209Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&X-Goog-Signature=23b72dd36307bb845c1a2d929e7fee0af5086e4c74ccfe1f0d14542cf23005246e844d8fe31100c28f7b0d3dd33b9f4dc22227c2bdeb5383f23051e87f07503fed1d9323986d96bf917fcfd79ad13a9c9d21821a32460b6e3b25e9985e6250de578147d099dff936dc97b0a0b8af3ae8baea5d2da2b121dc1fcb47b5d9fe252776278e5ac918fa06c6aff477576725defc2dc9da07a4a8b5f9abbd9c575ce57d938d78e41df671e4f5392ced73ba755209909a98b9b498f06b115969d87e13d15a6e5016fd431de1fbb09e732afad309dcec637cf9a6997b448ba27a428d902cd05a3fb44ee4a54b03ae784e99e051942ea505676d24df297032bc11a8e938ef
+      - run: echo "unzipping sdk"
+      - run: mkdir lib
+      - run: unzip -p social_sdk.zip discord_social_sdk/lib/release/libdiscord_partner_sdk.dylib > lib/libdiscord_partner_sdk.dylib
+      - run: make build
+      - run: echo "guess it worked and finished?"
