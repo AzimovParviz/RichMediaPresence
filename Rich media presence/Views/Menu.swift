@@ -11,7 +11,7 @@ struct Menu: View {
     @StateObject var nowPlayingModel: NowPlayingModel
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack{
             if let artwork = nowPlayingModel.artwork{
                 Image(nsImage: artwork)
             }
@@ -24,6 +24,9 @@ struct Menu: View {
             if let album = nowPlayingModel.album{
                 Text(album)
             }
+        }
+        Button("Quit") {
+            NSApplication.shared.terminate(nil)
         }
     }
 }

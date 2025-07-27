@@ -7,7 +7,6 @@
 
 import AppKit
 import Foundation
-
 class NowPlayingModel: ObservableObject {
     private var shouldChange: Bool = true
     @Published var title: String?
@@ -44,15 +43,15 @@ class NowPlayingModel: ObservableObject {
                     self.discordController.updateDiscordPresence(
                         artist: (self.artist != nil)
                             ? self.artist!.utf8.count > 128
-                                ? String(self.title!.utf8.prefix(124))! + "..."
+                                ? String(self.artist!.utf8Prefix(124)) + "..."
                                 : self.artist : nil,
                         title: (self.title != nil)
                             ? self.title!.utf8.count > 128
-                                ? String(self.title!.utf8.prefix(124))! + "..."
+                                ? String(self.title!.utf8Prefix(124)) + "..."
                                 : self.title : nil,
                         album: (self.album != nil)
                             ? self.album!.utf8.count > 128
-                                ? String(self.title!.utf8.prefix(124))! + "..."
+                                ? String(self.album!.utf8Prefix(124)) + "..."
                                 : self.album : nil
                     )
                 }
