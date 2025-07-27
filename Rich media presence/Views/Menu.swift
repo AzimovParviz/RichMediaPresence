@@ -15,6 +15,9 @@ struct Menu: View {
             if let artwork = nowPlayingModel.artwork{
                 Image(nsImage: artwork)
             }
+            else {
+                Rectangle().frame(width: 300, height: 200)
+            }
             if let title = nowPlayingModel.title{
                 Text(title)
             }

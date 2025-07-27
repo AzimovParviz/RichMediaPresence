@@ -10,7 +10,6 @@ import MediaRemoteAdapter
 
 @main
 struct Rich_media_presenceApp: App {
-//    @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var nowPlayingModel = NowPlayingModel()
     var body: some Scene {
         MenuBarExtra("Rich media presence", systemImage: "dot.radiowaves.left.and.right") {
