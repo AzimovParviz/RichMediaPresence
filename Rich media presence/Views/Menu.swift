@@ -16,7 +16,7 @@ struct Menu: View {
                 Image(nsImage: artwork)
             }
             else {
-                Rectangle().frame(width: 300, height: 200)
+                Rectangle().frame(width: 300, height: 200).blendMode(.destinationOut)
             }
             if let title = nowPlayingModel.title{
                 Text(title)

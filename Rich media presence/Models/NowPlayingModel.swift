@@ -7,6 +7,42 @@
 
 import AppKit
 import Foundation
+
+extension NSImage {
+    var base64String: String? {
+        guard let rep = NSBitmapImageRep(
+            bitmapDataPlanes: nil,
+            pixelsWide: Int(size.width),
+            pixelsHigh: Int(size.height),
+            bitsPerSample: 8,
+            samplesPerPixel: 4,
+            hasAlpha: true,
+            isPlanar: false,
+            colorSpaceName: .calibratedRGB,
+            bytesPerRow: 0,
+            bitsPerPixel: 0
+            ) else {
+                print("Couldn't create bitmap representation")
+                return nil
+        }
+        
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
+        draw(at: NSZeroPoint, from: NSZeroRect, operation: .sourceOver, fraction: 1.0)
+        NSGraphicsContext.restoreGraphicsState()
+        
+        guard let data = rep.representation(using: NSBitmapImageRep.FileType.png, properties: [NSBitmapImageRep.PropertyKey.compressionFactor: 1.0]) else {
+            print("Couldn't create PNG")
+            return nil
+        }
+        
+        // With prefix
+        // return "data:image/png;base64,\(data.base64EncodedString(options: []))"
+        // Without prefix
+        return data.base64EncodedString(options: [])
+    }
+}
+
 class NowPlayingModel: ObservableObject {
     private var shouldChange: Bool = true
     @Published var title: String?
@@ -19,6 +55,7 @@ class NowPlayingModel: ObservableObject {
         NowPlayingController()
     private let discordController: DiscordController = DiscordController()
 
+    // TODO: is all of this logic supposed to be here in the init func
     init() {
         nowPlayingController.setupAndStart()
         // This triggers whenever you pause or unpause or whenever a video stream buffers
@@ -39,6 +76,9 @@ class NowPlayingModel: ObservableObject {
                 self.artist = trackInfo.payload.artist
                 self.album = trackInfo.payload.album
                 self.artwork = trackInfo.payload.artwork
+//                if self.artwork != nil {
+//                    uploadAsset(base64Image: self.artwork!.base64String!)
+//                }
                 DispatchQueue.global(qos: .background).async {
                     self.discordController.updateDiscordPresence(
                         artist: (self.artist != nil)

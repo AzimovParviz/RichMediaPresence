@@ -5,16 +5,16 @@
 //  Created by rosenberg on 28.6.2025.
 //
 
-// disordpp.h:
-//    Discord_String AllocateString(std::string const& str)
-//        {
-//            Discord_String result;
-//            result.ptr = reinterpret_cast<uint8_t*>(Discord_Alloc(str.size()));
-//            result.size = str.size();
-//            std::memcpy(result.ptr, str.data(), result.size);
-//            return result;
-//        }
-
+/* disordpp.h:
+Discord_String AllocateString(std::string const& str)
+    {
+        Discord_String result;
+        result.ptr = reinterpret_cast<uint8_t*>(Discord_Alloc(str.size()));
+        result.size = str.size();
+        std::memcpy(result.ptr, str.data(), result.size);
+        return result;
+    }
+*/
 func convertToDiscordString(strValue: String) -> Discord_String {
     let dsPointer: UnsafeMutablePointer<__uint8_t> = Discord_Alloc(
         strValue.utf8.count
