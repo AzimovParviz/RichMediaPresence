@@ -120,8 +120,11 @@ private func updatePresenceCallback(
 
 public class DiscordController {
     var state: Discord_String = Discord_String()
+    var displayType: Discord_StatusDisplayTypes = .init(rawValue: 1)
     var details: Discord_String = Discord_String()
     var name: Discord_String = Discord_String()
+    var assets: Discord_ActivityAssets = Discord_ActivityAssets()
+    var assetsName: Discord_String = Discord_String()
 
     init() {
         Discord_Client_Init(&discordClient)
@@ -145,18 +148,22 @@ public class DiscordController {
         //            &verifier,
         //            &discordChallenge
         //        )
-        //        let cb: DCLoggingCallback = loggingCallback
-        //        Discord_Client_AddLogCallback(
-        //            &discordClient,
-        //            cb,
-        //            nil,
-        //            nil,
-        //            Discord_LoggingSeverity_Verbose
-        //        )
+        let cb: DCLoggingCallback = loggingCallback
+        Discord_Client_AddLogCallback(
+            &discordClient,
+            cb,
+            nil,
+            nil,
+            Discord_LoggingSeverity_Verbose
+        )
         //not needed for rich presence
-        //        authorizeClient(client: &discordClient, authArguments: &authArgs)
+//        authorizeClient(client: &discordClient, authArguments: &authArgs)
 
+        //FIXME: if you upload something with the same name it will use the previously cached version
+        // TODO: upload default image to discord app's assets
+        self.assetsName = convertToDiscordString(strValue: "sometest")
         Discord_Activity_Init(&discordActivity)
+        Discord_ActivityAssets_Init(&assets)
         Discord_Client_Connect(&discordClient)
     }
 
@@ -170,7 +177,7 @@ public class DiscordController {
             }
 
             self.state = convertToDiscordString(strValue: title!)
-            Discord_Activity_SetState(&discordActivity, &state)
+            Discord_Activity_SetState(&discordActivity, &self.state)
         } else {
             //If we don't set it here it will retain the previous value
             // Must be doing something wrong
@@ -182,25 +189,30 @@ public class DiscordController {
                 self.details.ptr.deallocate()
             }
             self.details = convertToDiscordString(strValue: artist!)
-            Discord_Activity_SetDetails(&discordActivity, &details)
+            Discord_Activity_SetDetails(&discordActivity, &self.details)
         } else {
             Discord_Activity_SetDetails(&discordActivity, nil)
         }
+        Discord_Activity_SetType(&discordActivity, Discord_ActivityTypes.init(2))
+        //TODO: there is now status display type for music thingies so that you can set it to "Listening to %artistname% or whatever
+        Discord_Activity_SetStatusDisplayType(&discordActivity, &displayType)
+        // Check if they exist before updating
+//        Discord_Activity_SetAssets(&discordActivity, &self.assets)
+//        Discord_ActivityAssets_SetLargeImage(&self.assets, &self.assetsName)
         // Not possible yet
-        //        if album != "" || album != nil {
-        //            self.name = convertToDiscordString(strValue: album ?? "")
-        //            Discord_Activity_SetName(&discordActivity, name)
-        //        }
-        //        else {
-        //            self.name = DiscordString(val: "Ahoy!").convertToDiscordString()
-        //            Discord_Activity_SetName(&discordActivity, name)
-        //        }
-
-        updateDiscordPresence()
+//        if album != "" || album != nil {
+//            self.name = convertToDiscordString(strValue: album ?? "")
+//            Discord_Activity_SetName(&discordActivity, name)
+//        }
+//        else {
+//            self.name = convertToDiscordString(strValue: "Ahoy!")
+//            Discord_Activity_SetName(&discordActivity, name)
+//        }
+        runDiscordPresence()
         Discord_RunCallbacks()
     }
 
-    func updateDiscordPresence() {
+    func runDiscordPresence() {
         let cb: RPCallback = updatePresenceCallback
         Discord_Client_UpdateRichPresence(
             &discordClient,

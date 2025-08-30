@@ -10,21 +10,10 @@ import MediaRemoteAdapter
 
 @main
 struct Rich_media_presenceApp: App {
-//    @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var nowPlayingModel = NowPlayingModel()
     var body: some Scene {
         MenuBarExtra("Rich media presence", systemImage: "dot.radiowaves.left.and.right") {
             Menu(nowPlayingModel: nowPlayingModel)
-                .overlay(alignment: .topTrailing) {
-                    Button(
-                        "Quit",
-                        systemImage: "xmark.circle.fill"
-                    ) {
-                        NSApp.terminate(nil)
-                    }
-                }
-                .frame(width: 300, height: 300)
-                Text("Support me on kofi xD")
         }
         .menuBarExtraStyle(.window)
     }
