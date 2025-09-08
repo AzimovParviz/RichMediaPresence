@@ -125,6 +125,7 @@ public class DiscordController {
     var name: Discord_String = Discord_String()
     var assets: Discord_ActivityAssets = Discord_ActivityAssets()
     var assetsName: Discord_String = Discord_String()
+    var activityTimestamps: Discord_ActivityTimestamps = Discord_ActivityTimestamps()
 
     init() {
         Discord_Client_Init(&discordClient)
@@ -162,12 +163,13 @@ public class DiscordController {
         //FIXME: if you upload something with the same name it will use the previously cached version
         // TODO: upload default image to discord app's assets
         self.assetsName = convertToDiscordString(strValue: "sometest")
+        Discord_ActivityTimestamps_Init(&activityTimestamps)
         Discord_Activity_Init(&discordActivity)
         Discord_ActivityAssets_Init(&assets)
         Discord_Client_Connect(&discordClient)
     }
 
-    func updateDiscordPresence(artist: String?, title: String?, album: String?) {
+    func updateDiscordPresence(artist: String?, title: String?, album: String?, duration: Double?, elapsed: Double?) {
         print("running the update loop and callbacks")
         Discord_Client_ClearRichPresence(&discordClient)
         if title != "" && title != nil {
@@ -179,7 +181,7 @@ public class DiscordController {
             self.state = convertToDiscordString(strValue: title!)
             Discord_Activity_SetState(&discordActivity, &self.state)
         } else {
-            //If we don't set it here it will retain the previous value
+            // If we don't set it here it will retain the previous value
             // Must be doing something wrong
             Discord_Activity_SetState(&discordActivity, nil)
         }
@@ -193,9 +195,21 @@ public class DiscordController {
         } else {
             Discord_Activity_SetDetails(&discordActivity, nil)
         }
+        if (elapsed != nil) {
+            Discord_ActivityTimestamps_SetStart(&self.activityTimestamps, UInt64(Date().timeIntervalSince1970 * 1000 + ((elapsed!)/1000)))
+        }
+        else {
+            Discord_ActivityTimestamps_SetStart(&self.activityTimestamps, 0)
+        }
+        if (duration != nil) {
+            Discord_ActivityTimestamps_SetEnd(
+                &self.activityTimestamps,
+                UInt64((Date().timeIntervalSince1970 * 1000) + ((duration!)/1000))
+            )
+        }
         Discord_Activity_SetType(&discordActivity, Discord_ActivityTypes.init(2))
-        //TODO: there is now status display type for music thingies so that you can set it to "Listening to %artistname% or whatever
         Discord_Activity_SetStatusDisplayType(&discordActivity, &displayType)
+        Discord_Activity_SetTimestamps(&discordActivity, &self.activityTimestamps)
         // Check if they exist before updating
 //        Discord_Activity_SetAssets(&discordActivity, &self.assets)
 //        Discord_ActivityAssets_SetLargeImage(&self.assets, &self.assetsName)

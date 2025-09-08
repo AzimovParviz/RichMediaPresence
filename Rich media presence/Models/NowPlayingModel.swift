@@ -48,7 +48,8 @@ class NowPlayingModel: ObservableObject {
     @Published var title: String?
     @Published var artist: String?
     @Published var album: String?
-    @Published var duration: TimeInterval?
+    @Published var duration: Double?
+    @Published var elapsed: Double?
     @Published var artwork: NSImage?
 
     private let nowPlayingController: NowPlayingController =
@@ -76,6 +77,8 @@ class NowPlayingModel: ObservableObject {
                 self.artist = trackInfo.payload.artist
                 self.album = trackInfo.payload.album
                 self.artwork = trackInfo.payload.artwork
+                self.duration = trackInfo.payload.durationMicros
+                self.elapsed = trackInfo.payload.elapsedTimeMicros
 //                if self.artwork != nil {
 //                    uploadAsset(base64Image: self.artwork!.base64String!)
 //                }
@@ -92,7 +95,13 @@ class NowPlayingModel: ObservableObject {
                         album: (self.album != nil)
                             ? self.album!.utf8.count > 128
                                 ? String(self.album!.utf8Prefix(124)) + "..."
-                                : self.album : nil
+                                : self.album : nil,
+                        duration: (self.duration != nil)
+                        ? (self.duration!)
+                        : nil,
+                        elapsed: (self.elapsed != nil)
+                        ? (self.elapsed!)
+                        : nil
                     )
                 }
             }
