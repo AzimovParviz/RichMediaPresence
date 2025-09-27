@@ -51,6 +51,7 @@ class NowPlayingModel: ObservableObject {
     @Published var duration: Double?
     @Published var elapsed: Double?
     @Published var artwork: NSImage?
+    @Published var isPlaying: Bool? = false
 
     private let nowPlayingController: NowPlayingController =
         NowPlayingController()
@@ -65,6 +66,7 @@ class NowPlayingModel: ObservableObject {
             if trackInfo.payload.title != self.title
                 || trackInfo.payload.artist != self.artist
                 || trackInfo.payload.album != self.album
+                || trackInfo.payload.isPlaying != self.isPlaying
             {
                 self.shouldChange = true
                 print("Should change")
@@ -79,6 +81,7 @@ class NowPlayingModel: ObservableObject {
                 self.artwork = trackInfo.payload.artwork
                 self.duration = trackInfo.payload.durationMicros
                 self.elapsed = trackInfo.payload.elapsedTimeMicros
+                self.isPlaying = trackInfo.payload.isPlaying
 //                if self.artwork != nil {
 //                    uploadAsset(base64Image: self.artwork!.base64String!)
 //                }
@@ -101,7 +104,10 @@ class NowPlayingModel: ObservableObject {
                         : nil,
                         elapsed: (self.elapsed != nil)
                         ? (self.elapsed!)
-                        : nil
+                        : nil,
+                        isPlaying: (self.isPlaying!)
+                        ? self.isPlaying!
+                        : false
                     )
                 }
             }

@@ -169,7 +169,7 @@ public class DiscordController {
         Discord_Client_Connect(&discordClient)
     }
 
-    func updateDiscordPresence(artist: String?, title: String?, album: String?, duration: Double?, elapsed: Double?) {
+    func updateDiscordPresence(artist: String?, title: String?, album: String?, duration: Double?, elapsed: Double?, isPlaying: Bool) {
         print("running the update loop and callbacks")
         Discord_Client_ClearRichPresence(&discordClient)
         if title != "" && title != nil {
@@ -195,17 +195,27 @@ public class DiscordController {
         } else {
             Discord_Activity_SetDetails(&discordActivity, nil)
         }
-        if (elapsed != nil) {
+        if isPlaying {
+            if (elapsed != nil) {
             Discord_ActivityTimestamps_SetStart(&self.activityTimestamps, UInt64(Date().timeIntervalSince1970 * 1000 + ((elapsed!)/1000)))
-        }
-        else {
-            Discord_ActivityTimestamps_SetStart(&self.activityTimestamps, 0)
-        }
-        if (duration != nil) {
-            Discord_ActivityTimestamps_SetEnd(
-                &self.activityTimestamps,
-                UInt64((Date().timeIntervalSince1970 * 1000) + ((duration!)/1000))
-            )
+            }
+            else {
+                Discord_ActivityTimestamps_SetStart(&self.activityTimestamps, 0)
+            }
+            if (duration != nil ) {
+            // 8640000000000000 is the max possible end timestamp. Sometimes you will get values higher than that when watching a livestream
+                if (duration! < Double(8640000000000000))
+                {
+                    Discord_ActivityTimestamps_SetEnd(
+                        &self.activityTimestamps,
+                        UInt64((Date().timeIntervalSince1970 * 1000) + ((duration!)/1000))
+                    )
+                }
+                else
+                {
+                    Discord_ActivityTimestamps_SetEnd(&self.activityTimestamps, 8640000000000000)
+                }
+            }
         }
         Discord_Activity_SetType(&discordActivity, Discord_ActivityTypes.init(2))
         Discord_Activity_SetStatusDisplayType(&discordActivity, &displayType)
